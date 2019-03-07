@@ -21,15 +21,17 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "doreg",method = RequestMethod.POST)
+    @RequestMapping(value = "doreg",method = {RequestMethod.POST,RequestMethod.GET})
     public boolean DoReg(String username,String password,String email){
         if (username == null || password==null || email==null)
             return false;
         return userService.NewUserReg(username,password,email);
     }
 
-    @RequestMapping(value = "/check",method = RequestMethod.POST)
+    @RequestMapping(value = "/check",method = {RequestMethod.POST,RequestMethod.GET})
     public boolean IsRegistered(String username,String password){
         return userService.IsRegistered(username,password);
     }
+
+    //@RequestMapping()
 }
