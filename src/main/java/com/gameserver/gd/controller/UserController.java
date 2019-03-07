@@ -39,6 +39,6 @@ public class UserController {
             return encodeStr;
         }
         else
-            return "failed!!!";
+            return "failed";
     }
 }
