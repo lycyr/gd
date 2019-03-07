@@ -1,11 +1,9 @@
 package com.gameserver.gd.controller;
 
-import com.gameserver.gd.entity.User;
-import com.gameserver.gd.mapper.UserMapper;
+import com.gameserver.gd.Utils.Security;
 import com.gameserver.gd.service.UserService;
-import jdk.nashorn.internal.ir.RuntimeNode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,5 +31,14 @@ public class UserController {
         return userService.IsRegistered(username,password);
     }
 
-    //@RequestMapping()
+    @RequestMapping(value = "/login",method = {RequestMethod.GET,RequestMethod.POST})
+    public String Login(String username,String password){
+        if (userService.IsRegistered(username,password)){
+            String encodeStr = Security.md5(username+password);
+            System.out.println(encodeStr);
+            return encodeStr;
+        }
+        else
+            return "failed!!!";
+    }
 }
