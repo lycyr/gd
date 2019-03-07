@@ -23,4 +23,12 @@ public class UserService {
         userExample.or().andUsernameEqualTo(username).andPasswordEqualTo(password);
         return userMapper.selectByExample(userExample).size()>0;
     }
+
+    public boolean NewUserReg(String username,String password,String email){
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        return userMapper.insertSelective(user)>0;
+    }
 }

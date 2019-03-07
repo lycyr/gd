@@ -12,13 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-public class DemoController {
+public class UserController {
 
     private UserService userService;
 
     @Autowired
-    public DemoController(UserService userService){
+    public UserController(UserService userService){
         this.userService = userService;
+    }
+
+    @RequestMapping(value = "doreg",method = RequestMethod.POST)
+    public boolean DoReg(String username,String password,String email){
+        if (username == null || password==null || email==null)
+            return false;
+        return userService.NewUserReg(username,password,email);
     }
 
     @RequestMapping(value = "/check",method = RequestMethod.POST)
