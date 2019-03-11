@@ -65,5 +65,10 @@
         <table tableName="users" domainObjectName="User">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
+        <table tableName="Cards" domainObjectName="Card">
+            <generatedKey column="idCards" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="Deck" domainObjectName="Deck">
+        </table>
     </context>
 </generatorConfiguration>

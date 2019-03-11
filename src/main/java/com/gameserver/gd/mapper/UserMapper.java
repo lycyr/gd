@@ -3,8 +3,6 @@ package com.gameserver.gd.mapper;
 import com.gameserver.gd.entity.User;
 import com.gameserver.gd.entity.UserExample;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {

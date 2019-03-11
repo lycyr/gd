@@ -1,0 +1,3 @@
+由于mybatis-generator在生成mapper.xml文件的时候是会在原来基础上再生成，导致内容重复。
+所以报错：Result Maps collection already contains value for xxxMapper.BaseResultMap错误
+因此需要使用maven运行generator的时候，需要手动删除mapping文件夹里面的xxxmapper.xml和mapper文件夹里面的xxMapper文件。
