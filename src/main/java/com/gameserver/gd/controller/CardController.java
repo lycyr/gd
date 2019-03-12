@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/card")
 @Api("用来处理卡组（“背包系统”）")
@@ -24,5 +26,10 @@ public class CardController {
         if ( id < 0 )
             return null;
         return cardService.GetCardInfoById(id);
+    }
+
+    @RequestMapping(value = "/getAll",method = {RequestMethod.GET,RequestMethod.POST})
+    public List<Card> getAll(){
+        return  cardService.GetCardInfo();
     }
 }
