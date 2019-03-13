@@ -83,7 +83,17 @@ public class DeckService {
         return true;
     }
 
-        public boolean DeleteDeck(String username){
+    //进行更新用户的卡组，先删除，后新建的方法
+    @Transactional
+    public boolean UpdateDeck(NewDeck newDeck){
+        if (DeleteDeck(newDeck.getUsername())){
+            return SetNewDeck(newDeck);
+        }
+        return false;
+
+    }
+
+    public boolean DeleteDeck(String username){
         DeckExample deckExample = new DeckExample();
         deckExample.or().andUsernameEqualTo(username);
         return deckMapper.deleteByExample(deckExample)>0;

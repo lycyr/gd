@@ -67,4 +67,18 @@ public class DeckController {
         }
     }
 
+    @RequestMapping(value = "/updatedeck",method = RequestMethod.POST)
+    public boolean Update(@RequestBody NewDeck newDeck){
+        try{
+            if (!userService.IsExist(newDeck.getUsername()))
+                return false;
+            if (newDeck.getDecks().size()<1)
+                return false;
+            return deckService.UpdateDeck(newDeck);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new IllegalArgumentException("没有成功更新用户的卡组！");
+        }
+    }
+
 }
