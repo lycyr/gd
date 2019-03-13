@@ -25,11 +25,21 @@ public class CardController {
     public Card getInfo(int id){
         if ( id < 0 )
             return null;
-        return cardService.GetCardInfoById(id);
+        try {
+            return cardService.GetCardInfoById(id);
+        }catch (Exception e){
+            throw new IllegalArgumentException("这是不存在(未获得)的卡牌");
+        }
+
     }
 
     @RequestMapping(value = "/getAll",method = {RequestMethod.GET,RequestMethod.POST})
     public List<Card> getAll(){
-        return  cardService.GetCardInfo();
+        try {
+            return  cardService.GetCardInfo();
+        }catch (Exception e){
+            throw new IllegalArgumentException("服务器故障，请重新登录");
+        }
+
     }
 }

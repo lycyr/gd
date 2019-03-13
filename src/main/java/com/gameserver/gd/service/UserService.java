@@ -31,4 +31,10 @@ public class UserService {
         user.setEmail(email);
         return userMapper.insertSelective(user)>0;
     }
+
+    public boolean IsExist(String username){
+        UserExample userExample = new UserExample();
+        userExample.or().andUsernameEqualTo(username);
+        return userMapper.selectByExample(userExample).size()>0;
+    }
 }

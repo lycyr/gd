@@ -1,7 +1,9 @@
 package com.gameserver.gd.controller;
 
 import com.gameserver.gd.pvp.MyDeck;
+import com.gameserver.gd.pvp.NewDeck;
 import com.gameserver.gd.service.DeckService;
+import com.gameserver.gd.service.UserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,14 +18,21 @@ import java.util.Map;
 @Api("用于背包机制")
 public class DeckController {
     private DeckService deckService;
+    private UserService userService;
 
     @Autowired
-    public DeckController(DeckService deckService){
+    public DeckController(DeckService deckService,UserService userService){
         this.deckService = deckService;
+        this.userService = userService;
     }
 
     @RequestMapping(value = "/getdeck",method = {RequestMethod.GET,RequestMethod.POST})
     public Map<Integer,Integer> GetDeckMap(String username){
+//        try{
+//
+//        }catch (Exception e){
+//            throw new IllegalArgumentException("");
+//        }
         if (username == null)
             return null;
         return deckService.GetDeckByUsername(username);
@@ -44,9 +53,18 @@ public class DeckController {
             return deckService.DeleteDeck(username);
     }
 
-    @RequestMapping(value = "/createdeck",method = {RequestMethod.GET,RequestMethod.POST})
-    public MyDeck CreateDeck(String username,@RequestBody MyDeck myDeck){
-        return myDeck;
+    @RequestMapping(value = "/createdeck",method = RequestMethod.POST)
+    public boolean CreateDeck(@RequestBody NewDeck newDeck){
+        try{
+            if (!userService.IsExist(newDeck.getUsername()))
+                return false;
+            if (newDeck.getDecks().size()<1)
+                return false;
+            return deckService.SetNewDeck(newDeck);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new IllegalArgumentException("没有成功创建新的卡组！");
+        }
     }
 
 }

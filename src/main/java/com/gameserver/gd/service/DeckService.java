@@ -4,14 +4,12 @@ import com.gameserver.gd.entity.Deck;
 import com.gameserver.gd.entity.DeckExample;
 import com.gameserver.gd.mapper.DeckMapper;
 import com.gameserver.gd.pvp.MyDeck;
+import com.gameserver.gd.pvp.NewDeck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DeckService {
@@ -49,21 +47,43 @@ public class DeckService {
         return myDeck;
     }
 
-    //新建一个套牌，用于新的玩家
+      //新建一个套牌，用于新的玩家
+//    @Transactional
+//    public boolean SetNewDeck(String username,MyDeck myDeck){
+//        int len = myDeck.getCardId().size();
+//        Deck deck = new Deck();
+//        deck.setUsername(username);
+//        for (int i=0; i<len; i++){
+//            deck.setIdcards(myDeck.getCardId().get(i));
+//            deck.setCount(myDeck.getCount().get(i));
+//            deckMapper.insert(deck);
+//        }
+//        return true;
+//    }
+
     @Transactional
-    public boolean SetNewDeck(String username,MyDeck myDeck){
-        int len = myDeck.getCardId().size();
-        Deck deck = new Deck();
-        deck.setUsername(username);
-        for (int i=0; i<len; i++){
-            deck.setIdcards(myDeck.getCardId().get(i));
-            deck.setCount(myDeck.getCount().get(i));
-            deckMapper.insert(deck);
+    public boolean SetNewDeck(NewDeck newDeck){
+        int len = newDeck.getDecks().size();
+        Map<Integer,Integer> decks = new HashMap<>();
+        for (int i=0;i<len;i++){
+            decks.put(newDeck.getDecks().get(i),decks.getOrDefault(newDeck.getDecks().get(i),0)+1);
+        }
+        try{
+            Deck deck = new Deck();
+            deck.setUsername(newDeck.getUsername());
+            for(Map.Entry<Integer,Integer> entry : decks.entrySet()){
+                deck.setIdcards(entry.getKey());
+                deck.setCount(entry.getValue());
+                if (deckMapper.insert(deck)<=0)
+                    return false;
+            }
+        }catch (Exception e){
+            return false;
         }
         return true;
     }
 
-    public boolean DeleteDeck(String username){
+        public boolean DeleteDeck(String username){
         DeckExample deckExample = new DeckExample();
         deckExample.or().andUsernameEqualTo(username);
         return deckMapper.deleteByExample(deckExample)>0;
