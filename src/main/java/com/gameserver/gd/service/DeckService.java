@@ -48,18 +48,18 @@ public class DeckService {
     }
 
       //新建一个套牌，用于新的玩家
-//    @Transactional
-//    public boolean SetNewDeck(String username,MyDeck myDeck){
-//        int len = myDeck.getCardId().size();
-//        Deck deck = new Deck();
-//        deck.setUsername(username);
-//        for (int i=0; i<len; i++){
-//            deck.setIdcards(myDeck.getCardId().get(i));
-//            deck.setCount(myDeck.getCount().get(i));
-//            deckMapper.insert(deck);
-//        }
-//        return true;
-//    }
+    @Transactional
+    public boolean SetNewDeck(String username,MyDeck myDeck){
+        int len = myDeck.getCardId().size();
+        Deck deck = new Deck();
+        deck.setUsername(username);
+        for (int i=0; i<len; i++){
+            deck.setIdcards(myDeck.getCardId().get(i));
+            deck.setCount(myDeck.getCount().get(i));
+            deckMapper.insert(deck);
+        }
+        return true;
+    }
 
     @Transactional
     public boolean SetNewDeck(NewDeck newDeck){
