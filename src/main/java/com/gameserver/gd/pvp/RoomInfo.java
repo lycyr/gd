@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 //房间信息，返回给客户端，用户名以及准备人数
 public class RoomInfo {
+    //存储用户名
     private List<String> username = new ArrayList<>();
+    //存储当前房间的准备人数
     private int ready = 0;
 
     public void setReady(int ready) {

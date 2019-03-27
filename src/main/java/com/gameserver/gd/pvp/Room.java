@@ -14,7 +14,7 @@ public class Room {
     //记录用户的状态，两个都准备时，ready为2，此时开启房间
     private int ready = 0;
 
-    //当玩家进行准备或者取消准备时调用此函数
+    //当玩家进行准备或者取消准备时调用此函数，加锁以便进行线程同步
     public synchronized void readyCount(){
         ready=ready+1;
     }

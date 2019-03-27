@@ -67,7 +67,7 @@ public class HallController {
         }
     }
 
-    //退出房间时使用此方法，
+    //退出房间时使用此方法，需要用户先取消准备，再退出房间。否则会出现逻辑问题导致无法开始对局
     @RequestMapping(value = "/quit-room",method = {RequestMethod.GET,RequestMethod.POST})
     public boolean QuitRoom(String token){
         try {
