@@ -41,8 +41,8 @@ public class UserController {
         if (userService.IsRegistered(username,password)){
             String encodeStr = Security.md5(username+password);
             System.out.println(encodeStr);
-            //encodeStr即使用md5加密后的token值
-            UserVO userVO = new UserVO(encodeStr,-1);
+
+            UserVO userVO = new UserVO(username,-1);
             //处理已经登录过的用户
             UserVO loginedUser = (UserVO)UserList.get(encodeStr);
             if (loginedUser!=null){
@@ -51,6 +51,7 @@ public class UserController {
                 System.out.println("已成功处理已经登录的用户");
             }
             //将用户添加到当前在线的用户列表中去
+            //encodeStr即使用md5加密后的token值
             UserList.setUserList(encodeStr,userVO);
             return encodeStr;
         }

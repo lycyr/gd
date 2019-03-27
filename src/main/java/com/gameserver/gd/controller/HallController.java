@@ -22,7 +22,7 @@ public class HallController {
         this.hallService = hallService;
     }
 
-    //玩家进入大厅时进行调用，且通过心跳机制进行数据更新
+    //玩家进入大厅时进行调用，且需要通过心跳机制进行数据更新
     @RequestMapping(value = "/list",method = {RequestMethod.POST,RequestMethod.GET})
     public List<RoomInfo> getRoomLists() {
         try {
@@ -35,6 +35,7 @@ public class HallController {
                 for (UserVO userVO : room.getPlayers()) {
                     roomInfo.getUsername().add(userVO.getUsername());
                 }
+                //ready是获得当前准备的用户人数
                 roomInfo.setReady(room.getReady());
                 roomList.add(roomInfo);
             }
@@ -56,7 +57,7 @@ public class HallController {
             Room room = Hall.getRooms().get(roomIndex);
             RoomInfo roomInfo = new RoomInfo();
             roomInfo.setReady(room.getReady());
-            for (UserVO userVO1:room.getPlayers()){
+            for (UserVO userVO1 : room.getPlayers()){
                 roomInfo.getUsername().add(userVO1.getUsername());
             }
             return roomInfo;
@@ -66,4 +67,18 @@ public class HallController {
         }
     }
 
+    //退出房间时使用此方法，
+    @RequestMapping(value = "/quit-room",method = {RequestMethod.GET,RequestMethod.POST})
+    public boolean QuitRoom(String token){
+        try {
+            UserVO userVO = (UserVO)UserList.get(token);
+            if (userVO == null)
+                return false;
+            hallService.exitRoom(userVO);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
