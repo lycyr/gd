@@ -1,15 +1,15 @@
 package com.gameserver.gd.pvp;
 
 import com.gameserver.gd.entity.User;
-
+//记录玩家的用户名以及当前所在的房间号
 public class UserVO {
-    private String token;
+    private String username;
     private int roomindex;
 
-    public UserVO(String token,int roomindex){
+    public UserVO(String username,int roomindex){
         //-1代表此玩家尚未进入游戏房间
         this.roomindex = -1;
-        this.token = token;
+        this.username = username;
     }
 
     public int getRoomindex() {
@@ -20,17 +20,17 @@ public class UserVO {
         this.roomindex = roomindex;
     }
 
-    public String getToken() {
-        return token;
+    public String getUsername() {
+        return username;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
     public String toString() {
-        return token+"在第"+roomindex+"个房间里面";
+        return username+"在第"+roomindex+"个房间里面";
     }
 
 }

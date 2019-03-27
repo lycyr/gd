@@ -6,27 +6,17 @@ import java.util.List;
 
 //用于记录玩家的信息
 public class Player {
-    private User user;
-    private int roomIndex;
+    private String username;
 
-    public Player(User user) {
-        this.user = user;
-        this.roomIndex = -1;
+    public Player(String username) {
+        this.username = username;
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public int getRoomIndex() {
-        return roomIndex;
-    }
-
-    public void setRoomIndex(int roomIndex) {
-        this.roomIndex = roomIndex;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

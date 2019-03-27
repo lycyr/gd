@@ -50,6 +50,7 @@ public class UserController {
                     hallService.exitRoom(userVO);
                 System.out.println("已成功处理已经登录的用户");
             }
+            //将用户添加到当前在线的用户列表中去
             UserList.setUserList(encodeStr,userVO);
             return encodeStr;
         }

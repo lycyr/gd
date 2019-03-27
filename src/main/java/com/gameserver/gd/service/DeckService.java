@@ -96,6 +96,8 @@ public class DeckService {
     public boolean DeleteDeck(String username){
         DeckExample deckExample = new DeckExample();
         deckExample.or().andUsernameEqualTo(username);
+        if (deckMapper.selectByExample(deckExample).size()==0)
+            return true;
         return deckMapper.deleteByExample(deckExample)>0;
     }
 }

@@ -5,7 +5,7 @@ import com.gameserver.gd.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 
-//房间类，用于进行处理玩家的对战
+//房间类，用于进行处理玩家的对战信息
 public class Room {
     //记录玩家，上限2个
     private  List<UserVO> players= new ArrayList<>();
@@ -14,7 +14,7 @@ public class Room {
     //记录用户的状态，两个都准备时，ready为2，此时开启房间
     private int ready = 0;
 
-    //
+    //当玩家进行准备或者取消准备时调用此函数
     public synchronized void readyCount(){
         ready=ready+1;
     }

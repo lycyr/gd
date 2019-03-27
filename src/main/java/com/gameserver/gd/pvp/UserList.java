@@ -2,7 +2,7 @@ package com.gameserver.gd.pvp;
 
 import java.util.HashMap;
 import java.util.Map;
-
+//记录当前的在线用户
 public class UserList {
     private static volatile Map<String,Object> userList = new HashMap<>();
 
