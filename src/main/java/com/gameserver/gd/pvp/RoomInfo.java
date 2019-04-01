@@ -8,6 +8,16 @@ public class RoomInfo {
     private List<String> username = new ArrayList<>();
     //存储当前房间的准备人数
     private int ready = 0;
+    //房间的id
+    private int roomindex;
+
+    public void setRoomindex(int roomindex) {
+        this.roomindex = roomindex;
+    }
+
+    public int getRoomindex() {
+        return roomindex;
+    }
 
     public void setReady(int ready) {
         this.ready = ready;

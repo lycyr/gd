@@ -10,7 +10,9 @@ public class Hall {
 
     static {
         for (int i = 0; i < 36; i++) {
-            Hall.rooms.add(new Room());
+            Room room = new Room();
+            room.setRoomindex(i);
+            Hall.rooms.add(room);
         }
     }
 //    public static void CreateRoom(){

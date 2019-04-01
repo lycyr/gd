@@ -3,6 +3,7 @@ package com.gameserver.gd.pvp;
 import java.util.Date;
 import java.util.Map;
 
+//目前没有用到此类
 public class DuelInfo {
     private Date time;
     private String email;

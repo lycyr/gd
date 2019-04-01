@@ -37,6 +37,7 @@ public class HallController {
                 }
                 //ready是获得当前准备的用户人数
                 roomInfo.setReady(room.getReady());
+                roomInfo.setRoomindex(room.getRoomindex());
                 roomList.add(roomInfo);
             }
             return roomList;
