@@ -14,6 +14,16 @@ public class Room {
 //    private  List<Duel> duels = new ArrayList<>();
     //记录用户的状态，两个都准备时，ready为2，此时开启房间
     private int ready = 0;
+    //对战处理，感觉下面没有使用的必要性
+    private Duel duel;
+
+    public void setDuel(Duel duel) {
+        this.duel = duel;
+    }
+
+    public Duel getDuel() {
+        return duel;
+    }
 
     public void setRoomindex(int roomindex) {
         this.roomindex = roomindex;

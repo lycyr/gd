@@ -35,7 +35,8 @@ public class HallService {
     //用户退出房间时使用此方法
     public void exitRoom(UserVO userVO){
         synchronized (Hall.getRooms()){
-            roomService.removePlayer(Hall.getRooms().get(userVO.getRoomindex()),userVO);
+            if (userVO.getRoomindex() != -1)
+                roomService.removePlayer(Hall.getRooms().get(userVO.getRoomindex()),userVO);
             userVO.setRoomindex(-1);
         }
     }
