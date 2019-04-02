@@ -34,10 +34,12 @@ public class HallService {
 
     //用户退出房间时使用此方法
     public void exitRoom(UserVO userVO){
+        //System.out.println("执行到了hallservice里面的退出房间操作");
         synchronized (Hall.getRooms()){
-            if (userVO.getRoomindex() != -1)
+            if (userVO.getRoomindex() != -1){
                 roomService.removePlayer(Hall.getRooms().get(userVO.getRoomindex()),userVO);
-            userVO.setRoomindex(-1);
+                userVO.setRoomindex(-1);
+            }
         }
     }
 }

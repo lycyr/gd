@@ -20,8 +20,9 @@ public class UserController {
     private HallService hallService;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService,HallService hallService){
         this.userService = userService;
+        this.hallService = hallService;
     }
 
     @RequestMapping(value = "doreg",method = {RequestMethod.POST,RequestMethod.GET})
@@ -40,14 +41,15 @@ public class UserController {
     public String Login(String username,String password){
         if (userService.IsRegistered(username,password)){
             String encodeStr = Security.md5(username+password);
-            System.out.println(encodeStr);
-
             UserVO userVO = new UserVO(username,-1);
-            //处理已经登录过的用户
+            System.out.println(encodeStr+" "+userVO.toString());
+
+            //处理记录为已经登录过的用户
             UserVO loginedUser = (UserVO)UserList.get(encodeStr);
-            if (loginedUser!=null){
+            if (loginedUser != null){
+                System.out.println(loginedUser.toString());
                 if (loginedUser.getRoomindex()!=-1)
-                    hallService.exitRoom(userVO);
+                    hallService.exitRoom(loginedUser);
                 System.out.println("已成功处理已经登录的用户");
             }
             //将用户添加到当前在线的用户列表中去
