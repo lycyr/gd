@@ -24,6 +24,8 @@ public class RoomController {
     public String doReady(int roomindex){
         if (roomindex <0 || roomindex>=36)
             return "error！错误原因：这是一个无效的房间号，请重新登录";
+        if (Hall.getRooms().get(roomindex).getReady() == 2)
+            return "房间里面的两人都已准备，即将进入对战页面";
         return roomService.ready(Hall.getRooms().get(roomindex));
     }
 

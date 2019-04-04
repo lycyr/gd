@@ -16,6 +16,16 @@ public class Duel {
     private List<Integer>[] BehindCards;
     //玩家的主卡组
     private List<Integer>[] decks;
+    //当前玩家判定
+    private int CurPlayer;
+
+    public void setCurPlayer(int curPlayer) {
+        CurPlayer = curPlayer;
+    }
+
+    public int getCurPlayer() {
+        return CurPlayer;
+    }
 
     public int[] getScore() {
         return score;
