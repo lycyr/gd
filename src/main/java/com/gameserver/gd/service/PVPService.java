@@ -67,6 +67,7 @@ public class PVPService {
                 duel.getDecks()[i] = arrayList;
             }
         }
+        room.setDuel(duel);
         return room;
     }
 }

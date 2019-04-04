@@ -6,6 +6,7 @@ import com.gameserver.gd.service.PVPService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,8 +21,9 @@ public class PVPController {
         this.pvpService = pvpService;
     }
 
-    @RequestMapping(value = "/get-init")
+    @RequestMapping(value = "/get-init",method = RequestMethod.POST)
     public Room initRoom(int roomindex){
+        pvpService.initScene(Hall.getRooms().get(roomindex));
         return Hall.getRooms().get(roomindex);
     }
 
