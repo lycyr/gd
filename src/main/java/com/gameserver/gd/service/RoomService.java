@@ -3,11 +3,19 @@ package com.gameserver.gd.service;
 import com.gameserver.gd.pvp.Room;
 import com.gameserver.gd.pvp.UserVO;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Api("用于处理房间相关逻辑")
 @Service
 public class RoomService {
+
+    private PVPService pvpService;
+
+    @Autowired
+    public RoomService(PVPService pvpService){
+        this.pvpService = pvpService;
+    }
 
     //当有用户进入房间时，将其添加
     synchronized public void addPlayer(Room room, UserVO userVO)throws  Exception{
@@ -29,8 +37,10 @@ public class RoomService {
     //房间内用户准备战斗时
     public String ready(Room room){
         room.readyCount();
-        if (room.getPlayers().size()==2)
+        if (room.getPlayers().size()==2){
+            pvpService.initScene(room);
             return "房间里面的两人都已准备，即将进入对战页面";
+        }
         else
             return "请耐心等待另一人准备";
     }

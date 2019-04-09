@@ -23,7 +23,7 @@ public class PVPController {
 
     @RequestMapping(value = "/get-init",method = RequestMethod.POST)
     public Room initRoom(int roomindex){
-        pvpService.initScene(Hall.getRooms().get(roomindex));
+        //pvpService.initScene(Hall.getRooms().get(roomindex));
         return Hall.getRooms().get(roomindex);
     }
 

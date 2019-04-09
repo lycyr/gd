@@ -23,6 +23,7 @@ public class PVPService {
         this.deckService = deckService;
     }
 
+    //初始化某个对战房间
     public Room initScene(Room room){
         Duel duel = new Duel();
         //设置初始分数
