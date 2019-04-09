@@ -1,7 +1,11 @@
-package com.gameserver.gd.service;
+package com.gameserver.gd.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gameserver.gd.Utils.Msg;
+import com.gameserver.gd.service.PVPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -35,7 +39,7 @@ public class WebSocketService {
         this.session = session;
         this.nickname = nickname;
         sessionMap.put(nickname,session);
-        System.out.println(session.getId()+nickname);
+        System.out.println(session.getId()+" "+nickname);
         //将此对象加入set中
         webSocketServices.add(this);
         this.session.getAsyncRemote().sendText("正在初始化对战场景，请耐心等待");
@@ -44,11 +48,31 @@ public class WebSocketService {
     @OnClose
     public void onClose() {
         webSocketServices.remove(this); //从set中删除
+        System.out.println("有人掉线？对局结束？");
     }
 
+    //message 客户端发过来的消息
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("来自客户端的消息:"+nickname+" "+ message);
+        //System.out.println("来自客户端的消息:"+nickname+" "+ message);
+        Msg msg;
+        ObjectMapper objectMapper = new ObjectMapper();
+        try{
+            msg = objectMapper.readValue(message,Msg.class);
+            System.out.println(nickname+"的操作为："+msg.toString());
+            Session receiver = sessionMap.get(msg.getReceiver());
+            Session sender = sessionMap.get(msg.getSender());
+            //System.out.println(receiver.getId()+msg.getReceiver()+" "+sender.getId()+msg.getSender());
+            if (receiver != null){
+                receiver.getAsyncRemote().sendText(message);
+                sender.getAsyncRemote().sendText(message);
+            }
+//            Session sender = sessionMap.get(msg.getSender());
+//
+//            sender.getAsyncRemote().sendText(message);
+        }catch (Exception e){
+            throw new IllegalArgumentException("数据解析/转发出错");
+        }
 
     }
 

@@ -14,8 +14,11 @@
 <button onclick="closeWebSocket()">断开连接</button>
 <hr />
 <br />
-消息：<input id="text" type="text" />
-频道号：<input id="toUser" type="text" />
+receiver:<input id="receiver" type="text" />
+id:<input id="id" type="text" />
+type:<input id="type" type="text" />
+position:<input id="position" type="text" />
+operation:<input id="operation" type="text" />
 <button onclick="send()">发送消息</button>
 <div id="message"></div>
 </body>
@@ -56,7 +59,7 @@
     }
     //将消息显示在网页上
     function setMessageInnerHTML(innerHTML) {
-        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+        document.getElementById('message').innerHTML += innerHTML.toString() + '<br/>';
     }
     //关闭连接
     function closeWebSocket() {
@@ -65,16 +68,13 @@
     //发送消息
     function send() {
         //获取输入的文本信息进行发送
-        var message = document.getElementById('text').value;
-        var toUser = document.getElementById('toUser').value;
-        var socketMsg = {msg:message,toUser:toUser};
-        if(toUser === ''){
-            //群聊.
-            socketMsg.type = 0;
-        }else{
-            //单聊.
-            socketMsg.type = 1;
-        }
+        var id = document.getElementById('id').value;
+        var type = document.getElementById('type').value;
+        var position = document.getElementById('position').value;
+        var opera = document.getElementById('operation').value;
+        var receiver = document.getElementById('receiver').value;
+        var sender = document.getElementById("nickname").value;
+        var socketMsg = {sender:sender,receiver:receiver,operation:{id:id,type:type,position:position,opera:opera}};
         websocket.send(JSON.stringify(socketMsg));
     }
 </script>

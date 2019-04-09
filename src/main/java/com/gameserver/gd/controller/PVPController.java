@@ -21,6 +21,7 @@ public class PVPController {
         this.pvpService = pvpService;
     }
 
+    //获取初始化的游戏场景
     @RequestMapping(value = "/get-init",method = RequestMethod.POST)
     public Room initRoom(int roomindex){
         //pvpService.initScene(Hall.getRooms().get(roomindex));
