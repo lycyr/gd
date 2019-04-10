@@ -45,7 +45,7 @@ public class PVPService {
         }
         //设置先手玩家0,1
         duel.setCurPlayer(Math.abs(new Random(47).nextInt(2)));
-        //读取用户牌组
+        //读取用户牌组，以list的形式记录下来
         for (int i=0;i<2;i++){
             String username = room.getPlayers().get(i).getUsername();
             MyDeck myDeck = deckService.GetDeckByUsernameAnother(username);
@@ -72,5 +72,22 @@ public class PVPService {
         return room;
     }
 
-
+    //id 卡牌编号，type 卡牌类型，position 卡牌放置位置
+    public boolean addCard(String player,int roomindex,int id,int type,int position){
+        Room room = Hall.getRooms().get(roomindex);
+        //获取玩家的相对位置
+        int playerPosition = 0;
+        if (room.getPlayers().get(1).getUsername().equals(player))
+            playerPosition = 1;
+        if (type == 0){
+            room.getDuel().getFrontCards()[playerPosition].set(position,id);
+            return true;
+        }
+        else if(type == 1){
+            room.getDuel().getBehindCards()[playerPosition].set(position,id);
+            return true;
+        }
+        else
+            return false;
+    }
 }

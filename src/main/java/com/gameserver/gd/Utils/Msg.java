@@ -8,6 +8,8 @@ public class Msg{
     private String sender;
     //接收者
     private String receiver;
+    //房间索引
+    private int roomindex;
     //消息内容
     private Operation operation;
 
@@ -25,6 +27,14 @@ public class Msg{
 
     public String getReceiver() {
         return receiver;
+    }
+
+    public void setRoomindex(int roomindex) {
+        this.roomindex = roomindex;
+    }
+
+    public int getRoomindex() {
+        return roomindex;
     }
 
     public void setOperation(Operation operation) {

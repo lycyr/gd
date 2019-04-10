@@ -58,17 +58,19 @@ public class WebSocketService {
         Msg msg;
         ObjectMapper objectMapper = new ObjectMapper();
         try{
+            //将数据解析为Msg类型的数据
             msg = objectMapper.readValue(message,Msg.class);
             System.out.println(nickname+"的操作为："+msg.toString());
-            Session receiver = sessionMap.get(msg.getReceiver());
             Session sender = sessionMap.get(msg.getSender());
+            Session receiver = sessionMap.get(msg.getReceiver());
             //System.out.println(receiver.getId()+msg.getReceiver()+" "+sender.getId()+msg.getSender());
             if (receiver != null){
                 receiver.getAsyncRemote().sendText(message);
                 sender.getAsyncRemote().sendText(message);
+                if (pvpService.addCard(msg.getSender(),msg.getRoomindex(),msg.getOperation().getId(),msg.getOperation().getType(),msg.getOperation().getPosition()))
+                    throw new IllegalArgumentException("数据存储出错");
             }
 //            Session sender = sessionMap.get(msg.getSender());
-//
 //            sender.getAsyncRemote().sendText(message);
         }catch (Exception e){
             throw new IllegalArgumentException("数据解析/转发出错");

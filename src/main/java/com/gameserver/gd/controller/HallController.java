@@ -54,11 +54,12 @@ public class HallController {
             UserVO userVO = (UserVO)UserList.get(token);
             if (userVO == null)
                 throw new IllegalArgumentException("未登录");
-            hallService.joinRoom(roomIndex,userVO);
             Room room = Hall.getRooms().get(roomIndex);
             //防止第三个人进入此房间
             if (room.getPlayers().size()==2)
                 return null;
+            hallService.joinRoom(roomIndex,userVO);
+            room = Hall.getRooms().get(roomIndex);
             RoomInfo roomInfo = new RoomInfo();
             roomInfo.setReady(room.getReady());
             for (UserVO userVO1 : room.getPlayers()){

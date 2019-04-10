@@ -15,6 +15,7 @@
 <hr />
 <br />
 receiver:<input id="receiver" type="text" />
+roomindex:<input id="roomindex" type="text" />
 id:<input id="id" type="text" />
 type:<input id="type" type="text" />
 position:<input id="position" type="text" />
@@ -74,7 +75,8 @@ operation:<input id="operation" type="text" />
         var opera = document.getElementById('operation').value;
         var receiver = document.getElementById('receiver').value;
         var sender = document.getElementById("nickname").value;
-        var socketMsg = {sender:sender,receiver:receiver,operation:{id:id,type:type,position:position,opera:opera}};
+        var roomindex = document.getElementById("roomindex").value;
+        var socketMsg = {sender:sender,receiver:receiver,roomindex:roomindex,operation:{id:id,type:type,position:position,opera:opera}};
         websocket.send(JSON.stringify(socketMsg));
     }
 </script>
