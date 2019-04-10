@@ -35,14 +35,14 @@ public class RoomService {
     }
 
     //房间内用户准备战斗时
-    public String ready(Room room){
+    public boolean ready(Room room){
         room.readyCount();
         if (room.getPlayers().size()==2){
             pvpService.initScene(room);
-            return "房间里面的两人都已准备，即将进入对战页面";
+            return true;
         }
         else
-            return "请耐心等待另一人准备";
+            return false;
     }
 
     //有人取消准备时执行此操作
