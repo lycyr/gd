@@ -30,7 +30,7 @@ public class RoomController {
         return roomService.ready(Hall.getRooms().get(roomindex));
     }
     //先准备的玩家将会调用此方法，进行查询另一名玩家是否已经准备（心跳机制）
-    @RequestMapping(value = "/getready",method = {RequestMethod.GET})
+    @RequestMapping(value = "/getready",method = {RequestMethod.POST})
     public boolean getReady(int roomindex){
         if (roomindex <0 || roomindex>=36)
             return false;
