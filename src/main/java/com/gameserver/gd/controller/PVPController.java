@@ -32,12 +32,19 @@ public class PVPController {
         return Hall.getRooms().get(roomindex);
     }
 
+    //获取第二局/第三局的游戏场景
+    @RequestMapping(value = "/get-next",method = RequestMethod.POST)
+    public Room NextRoom(int roomindex){
+        return pvpService.initRoom(Hall.getRooms().get(roomindex));
+    }
+
+    //获取静态保存的卡牌信息，测试用
     @RequestMapping(value = "/get-cards",method = RequestMethod.POST)
-    public List<Card> initRoom(){
-        //pvpService.initScene(Hall.getRooms().get(roomindex));
+    public List<Card> initCard(){
         return CardList.getCards();
     }
 
+    //获取某个玩家的点数，用于更新玩家的数据
     @RequestMapping(value = "/getscore",method = RequestMethod.POST)
     public int getScore(String username,int roomindex){
         if (roomindex<0 || roomindex>35)
@@ -48,6 +55,22 @@ public class PVPController {
         if (room.getPlayers().get(1).getUsername().equals(username))
             playerPosition = 1;
         return room.getDuel().getPoint()[playerPosition];
-        //return pvpService.calScore(username,roomindex);
+    }
+
+    //用于判定当前回合哪个玩家胜出,返回玩家的用户名,返回none代表平局，没有玩家胜出
+    @RequestMapping(value = "/getwinner",method = RequestMethod.POST)
+    public String getWinner(int roomindex){
+        if (roomindex<0 || roomindex>35)
+            return null;
+        //当前对局结束，进行更新房间数据
+        return pvpService.WinORFailure(roomindex);
+    }
+
+    //获取最终胜者
+    @RequestMapping(value = "/getlast",method = RequestMethod.POST)
+    public String getLast(int roomindex){
+        if (roomindex<0 || roomindex>35)
+            return null;
+        return pvpService.DuelEnd(roomindex);
     }
 }

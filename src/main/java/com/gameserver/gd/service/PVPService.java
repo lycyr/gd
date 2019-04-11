@@ -165,4 +165,59 @@ public class PVPService {
         room.getDuel().getPoint()[playerPosition] = score;
         return score;
     }
+
+    //用于判定当前回合哪个玩家胜出,返回玩家的用户名
+    public String WinORFailure(int roomindex){
+        Room room = Hall.getRooms().get(roomindex);
+        int []point = room.getDuel().getPoint();
+        if (point[0]<point[1]){
+            room.getDuel().getScore()[0] -= 1;
+            return room.getPlayers().get(1).getUsername();
+        }
+        else if (point[0]>point[1]){
+            room.getDuel().getScore()[1] -= 1;
+            return room.getPlayers().get(0).getUsername();
+        }
+        else{
+            room.getDuel().getScore()[0] -= 1;
+            room.getDuel().getScore()[1] -= 1;
+            return "none";
+        }
+    }
+
+    //用于判断对局结束时，最终的胜利者是谁
+    public String DuelEnd(int roomindex){
+        String username;
+        Room room = Hall.getRooms().get(roomindex);
+        if (room.getDuel().getScore()[0] == 0 && room.getDuel().getScore()[1] == 0)
+            username = "null";
+        else if (room.getDuel().getScore()[0] == 0)
+            username = room.getPlayers().get(1).getUsername();
+        else if (room.getDuel().getScore()[1] == 0)
+            username = room.getPlayers().get(0).getUsername();
+        else
+            username = "null";
+        //整个对局结束时，将对战场置为空
+        room.setDuel(null);
+        //对局结束时，将房间准备数置为0（便于此两人进行下一次对局）
+        room.setReady(0);
+        return username;
+    }
+
+    //初始化玩家数据，用于第二局/第三局对战
+    public Room initRoom(Room room){
+        Duel duel = room.getDuel();
+        //设置初始点数
+        duel.setPoint(new int[]{0,0});
+        //初始化远程单位与近战单位
+        for (int i= 0;i < 5;i++){
+            duel.getFrontCards()[0].set(i,0);
+            duel.getFrontCards()[1].set(i,0);
+            duel.getBehindCards()[0].set(i,0);
+            duel.getBehindCards()[1].set(i,0);
+        }
+        //设置先手玩家0,1
+        duel.setCurPlayer(Math.abs(new Random(47).nextInt(2)));
+        return room;
+    }
 }

@@ -70,7 +70,6 @@ public class WebSocketService {
                 //进行处理出牌操作
                 if (!pvpService.addCard(msg.getSender(),msg.getRoomindex(),msg.getOperation().getId(),msg.getOperation().getType(),msg.getOperation().getPosition()))
                     throw new IllegalArgumentException("数据存储出错");
-
             }
 //            Session sender = sessionMap.get(msg.getSender());
 //            sender.getAsyncRemote().sendText(message);
@@ -78,7 +77,6 @@ public class WebSocketService {
             e.printStackTrace();
             throw new IllegalArgumentException("数据解析/转发出错");
         }
-
     }
 
     @OnError
