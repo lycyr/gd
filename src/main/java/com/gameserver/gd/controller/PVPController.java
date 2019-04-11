@@ -67,7 +67,7 @@ public class PVPController {
     }
 
     //获取最终胜者
-    @RequestMapping(value = "/getlast",method = RequestMethod.POST)
+    @RequestMapping(value = "/getlastwinner",method = RequestMethod.POST)
     public String getLast(int roomindex){
         if (roomindex<0 || roomindex>35)
             return null;
