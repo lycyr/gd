@@ -27,6 +27,7 @@ public class RoomController {
             return false;
         if (Hall.getRooms().get(roomindex).getReady() == 2)
             return true;
+        System.out.println("房间"+roomindex+"内有人进行了准备操作");
         return roomService.ready(Hall.getRooms().get(roomindex));
     }
     //先准备的玩家将会调用此方法，进行查询另一名玩家是否已经准备（心跳机制）

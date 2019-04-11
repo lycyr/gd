@@ -45,7 +45,7 @@ public class PVPController {
     }
 
     //获取某个玩家的点数，用于更新玩家的数据
-    @RequestMapping(value = "/getscore",method = RequestMethod.POST)
+    @RequestMapping(value = "/getCardPoint",method = RequestMethod.POST)
     public int getScore(String username,int roomindex){
         if (roomindex<0 || roomindex>35)
             return 0;
