@@ -2,8 +2,10 @@ package com.gameserver.gd.controller;
 
 import com.gameserver.gd.Utils.Security;
 import com.gameserver.gd.entity.User;
+import com.gameserver.gd.pvp.CardList;
 import com.gameserver.gd.pvp.UserList;
 import com.gameserver.gd.pvp.UserVO;
+import com.gameserver.gd.service.CardService;
 import com.gameserver.gd.service.HallService;
 import com.gameserver.gd.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,13 @@ public class UserController {
 
     private UserService userService;
     private HallService hallService;
+    private CardService cardService;
 
     @Autowired
-    public UserController(UserService userService,HallService hallService){
+    public UserController(UserService userService,HallService hallService,CardService cardService){
         this.userService = userService;
         this.hallService = hallService;
+        this.cardService = cardService;
     }
 
     @RequestMapping(value = "doreg",method = {RequestMethod.POST,RequestMethod.GET})
@@ -43,7 +47,8 @@ public class UserController {
             String encodeStr = Security.md5(username+password);
             UserVO userVO = new UserVO(username,-1);
             System.out.println(encodeStr+" "+userVO.toString());
-
+            //初始化所有卡牌信息
+            CardList.setCards(cardService.GetCardInfo());
             //处理记录为已经登录过的用户
             UserVO loginedUser = (UserVO)UserList.get(encodeStr);
             if (loginedUser != null){

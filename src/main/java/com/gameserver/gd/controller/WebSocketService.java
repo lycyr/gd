@@ -67,12 +67,15 @@ public class WebSocketService {
             if (receiver != null){
                 receiver.getAsyncRemote().sendText(message);
                 sender.getAsyncRemote().sendText(message);
-                if (pvpService.addCard(msg.getSender(),msg.getRoomindex(),msg.getOperation().getId(),msg.getOperation().getType(),msg.getOperation().getPosition()))
+                //进行处理出牌操作
+                if (!pvpService.addCard(msg.getSender(),msg.getRoomindex(),msg.getOperation().getId(),msg.getOperation().getType(),msg.getOperation().getPosition()))
                     throw new IllegalArgumentException("数据存储出错");
+
             }
 //            Session sender = sessionMap.get(msg.getSender());
 //            sender.getAsyncRemote().sendText(message);
         }catch (Exception e){
+            e.printStackTrace();
             throw new IllegalArgumentException("数据解析/转发出错");
         }
 

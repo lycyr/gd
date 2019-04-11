@@ -72,22 +72,49 @@ public class PVPService {
         return room;
     }
 
-    //id 卡牌编号，type 卡牌类型，position 卡牌放置位置
+    //id 卡牌编号，type 卡牌类型，position 卡牌放置位置。出牌操作，将卡牌加入到场景中去。
     public boolean addCard(String player,int roomindex,int id,int type,int position){
         Room room = Hall.getRooms().get(roomindex);
         //获取玩家的相对位置
         int playerPosition = 0;
         if (room.getPlayers().get(1).getUsername().equals(player))
             playerPosition = 1;
+        //根据牌的类型进行分情况处理
         if (type == 0){
-            room.getDuel().getFrontCards()[playerPosition].set(position,id);
-            return true;
+            //先删除手牌
+            if (room.getDuel().getHandCards()[playerPosition].size()>0){
+                List<Integer> arrayList = room.getDuel().getHandCards()[playerPosition];
+                for(Integer i : arrayList){
+                    if (i == id){
+                        arrayList.remove(i);
+                        break;
+                    }
+                }
+                //然后将此牌加入场景中
+                room.getDuel().getFrontCards()[playerPosition].set(position,id);
+                return true;
+            }
+            return false;
         }
         else if(type == 1){
-            room.getDuel().getBehindCards()[playerPosition].set(position,id);
-            return true;
+            if (room.getDuel().getHandCards()[playerPosition].size()>0){
+                List<Integer> arrayList = room.getDuel().getHandCards()[playerPosition];
+                for(Integer i : arrayList){
+                    if (i == id){
+                        arrayList.remove(i);
+                        break;
+                    }
+                }
+                room.getDuel().getBehindCards()[playerPosition].set(position,id);
+                return true;
+            }
+            return false;
         }
         else
             return false;
+    }
+
+    public int calScore(int roomindex){
+        return 0;
     }
 }

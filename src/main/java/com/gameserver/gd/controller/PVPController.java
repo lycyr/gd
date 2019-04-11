@@ -1,5 +1,7 @@
 package com.gameserver.gd.controller;
 
+import com.gameserver.gd.entity.Card;
+import com.gameserver.gd.pvp.CardList;
 import com.gameserver.gd.pvp.Hall;
 import com.gameserver.gd.pvp.Room;
 import com.gameserver.gd.service.PVPService;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @Api("主要对pvp中的数据进行测试")
@@ -28,5 +32,9 @@ public class PVPController {
         return Hall.getRooms().get(roomindex);
     }
 
-
+    @RequestMapping(value = "/get-cards",method = RequestMethod.POST)
+    public List<Card> initRoom(){
+        //pvpService.initScene(Hall.getRooms().get(roomindex));
+        return CardList.getCards();
+    }
 }
