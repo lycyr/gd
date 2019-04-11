@@ -37,4 +37,17 @@ public class PVPController {
         //pvpService.initScene(Hall.getRooms().get(roomindex));
         return CardList.getCards();
     }
+
+    @RequestMapping(value = "/getscore",method = RequestMethod.POST)
+    public int getScore(String username,int roomindex){
+        if (roomindex<0 || roomindex>35)
+            return 0;
+        Room room = Hall.getRooms().get(roomindex);
+        //获取玩家的相对位置
+        int playerPosition = 0;
+        if (room.getPlayers().get(1).getUsername().equals(username))
+            playerPosition = 1;
+        return room.getDuel().getPoint()[playerPosition];
+        //return pvpService.calScore(username,roomindex);
+    }
 }

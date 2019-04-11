@@ -1,9 +1,7 @@
 package com.gameserver.gd.service;
 
-import com.gameserver.gd.pvp.Duel;
-import com.gameserver.gd.pvp.Hall;
-import com.gameserver.gd.pvp.MyDeck;
-import com.gameserver.gd.pvp.Room;
+import com.gameserver.gd.entity.Card;
+import com.gameserver.gd.pvp.*;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +26,8 @@ public class PVPService {
         Duel duel = new Duel();
         //设置初始分数
         duel.setScore(new int[]{2,2});
+        //设置初始点数
+        duel.setPoint(new int[]{0,0});
         //设置场地近战单位
         duel.setFrontCards(new List[]{new ArrayList<Integer>(),new ArrayList<Integer>()});
         //设置场地远程单位
@@ -92,6 +92,8 @@ public class PVPService {
                 }
                 //然后将此牌加入场景中
                 room.getDuel().getFrontCards()[playerPosition].set(position,id);
+                //进行点数变更
+                modifyScore(room,playerPosition,id);
                 return true;
             }
             return false;
@@ -106,6 +108,7 @@ public class PVPService {
                     }
                 }
                 room.getDuel().getBehindCards()[playerPosition].set(position,id);
+                modifyScore(room,playerPosition,id);
                 return true;
             }
             return false;
@@ -114,7 +117,52 @@ public class PVPService {
             return false;
     }
 
-    public int calScore(int roomindex){
-        return 0;
+    //房间，playerposition玩家的相对位置，id 卡牌编号
+    public void modifyScore(Room room,int playerposition,int id){
+        int score = room.getDuel().getPoint()[playerposition];
+        List<Card> cardList = CardList.getCards();
+        for (Card c : cardList){
+            if (c.getIdcards() == id){
+                score += c.getCardpoint();
+                break;
+            }
+        }
+        room.getDuel().getPoint()[playerposition] = score;
+    }
+
+    //计算某个玩家的分数
+    public int calScore(String player,int roomindex){
+        Room room = Hall.getRooms().get(roomindex);
+        //获取玩家的相对位置
+        int playerPosition = 0;
+        if (room.getPlayers().get(1).getUsername().equals(player))
+            playerPosition = 1;
+        List<Integer> close = room.getDuel().getFrontCards()[playerPosition];
+        List<Integer> far = room.getDuel().getBehindCards()[playerPosition];
+        int score = 0;
+        List<Card> cardList = CardList.getCards();
+        //如果当前位置为0，说明此处没有卡牌，跳过对此卡的处理
+        for (Integer i :close){
+            if (i!=0){
+                for (Card c : cardList){
+                    if (c.getIdcards() == i){
+                        score += c.getCardpoint();
+                        break;
+                    }
+                }
+            }
+        }
+        for (Integer i :far){
+            if (i!=0){
+                for (Card c : cardList){
+                    if (c.getIdcards() == i){
+                        score += c.getCardpoint();
+                        break;
+                    }
+                }
+            }
+        }
+        room.getDuel().getPoint()[playerPosition] = score;
+        return score;
     }
 }

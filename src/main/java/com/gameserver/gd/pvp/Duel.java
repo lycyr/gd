@@ -7,7 +7,9 @@ import java.util.List;
 //用于进行定义决斗场景
 public class Duel {
     //用户的初始点数，清零即为失败
-    private int []score = new int[]{2,2};
+    private int []score;
+    //玩家的点数
+    private int []point;
     //用户的初始化的手牌
     private List<Integer>[] handCards;
     //游戏场地近战单位区域
@@ -33,6 +35,14 @@ public class Duel {
 
     public void setScore(int[] score) {
         this.score = score;
+    }
+
+    public void setPoint(int[] point) {
+        this.point = point;
+    }
+
+    public int[] getPoint() {
+        return point;
     }
 
     public List<Integer>[] getHandCards() {
