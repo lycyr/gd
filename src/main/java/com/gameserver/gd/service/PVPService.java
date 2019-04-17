@@ -272,4 +272,15 @@ public class PVPService {
         duel.setCurPlayer(Math.abs(new Random(47).nextInt(2)));
         return room;
     }
+
+    //获取玩家的当前生命值
+    public int getScore(String player,int roomindex){
+        Room room = Hall.getRooms().get(roomindex);
+        //获取玩家的相对位置
+        int playerPosition = 0;
+        if (room.getPlayers().get(1).getUsername().equals(player))
+            playerPosition = 1;
+        int score = room.getDuel().getScore()[playerPosition];
+        return score;
+    }
 }

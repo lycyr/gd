@@ -46,7 +46,7 @@ public class PVPController {
 
     //获取某个玩家的点数，用于更新玩家的数据
     @RequestMapping(value = "/getCardPoint",method = RequestMethod.POST)
-    public int getScore(String username,int roomindex){
+    public int getCardPoint(String username,int roomindex){
         if (roomindex<0 || roomindex>35)
             return 0;
         Room room = Hall.getRooms().get(roomindex);
@@ -72,5 +72,12 @@ public class PVPController {
         if (roomindex<0 || roomindex>35)
             return null;
         return pvpService.DuelEnd(roomindex);
+    }
+
+    @RequestMapping(value = "/getScore",method = RequestMethod.POST)
+    public int getScore(String player,int roomindex){
+        if (roomindex<0 || roomindex>35)
+            return 0;
+        return pvpService.getScore(player,roomindex);
     }
 }
