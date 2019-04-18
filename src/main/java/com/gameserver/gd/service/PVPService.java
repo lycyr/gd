@@ -223,16 +223,16 @@ public class PVPService {
         Room room = Hall.getRooms().get(roomindex);
         int []point = room.getDuel().getPoint();
         if (point[0]<point[1]){
-            room.getDuel().getScore()[0] -= 1;
+            //room.getDuel().getScore()[0] -= 1;
             return room.getPlayers().get(1).getUsername();
         }
         else if (point[0]>point[1]){
-            room.getDuel().getScore()[1] -= 1;
+            //room.getDuel().getScore()[1] -= 1;
             return room.getPlayers().get(0).getUsername();
         }
         else{
-            room.getDuel().getScore()[0] -= 1;
-            room.getDuel().getScore()[1] -= 1;
+            //room.getDuel().getScore()[0] -= 1;
+            //room.getDuel().getScore()[1] -= 1;
             return "none";
         }
     }
