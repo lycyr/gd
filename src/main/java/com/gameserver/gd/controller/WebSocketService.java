@@ -27,7 +27,7 @@ public class WebSocketService {
     private String nickname;
     // 这里使用静态，让 service 属于类
     private static PVPService pvpService;
-
+    
     // 注入的时候，给类的service注入。set方法：静态，非静态的成员变量都可以用set注入。构造器只可以注入非静态的成员变量。这都是spring的基础知识
     @Autowired
     public void SetPVPService(PVPService pvpService){
@@ -42,7 +42,7 @@ public class WebSocketService {
         System.out.println(session.getId()+" "+nickname);
         //将此对象加入set中
         webSocketServices.add(this);
-        this.session.getAsyncRemote().sendText("正在初始化对战场景，请耐心等待");
+        //this.session.getAsyncRemote().sendText("正在初始化对战场景，请耐心等待");
     }
 
     @OnClose
