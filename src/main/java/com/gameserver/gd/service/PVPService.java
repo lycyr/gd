@@ -255,7 +255,7 @@ public class PVPService {
         else
             username = "none";
         //整个对局结束时，将对战场置为空
-        room.setDuel(null);
+        //room.setDuel(null);
         //对局结束时，将房间准备数置为0（便于此两人进行下一次对局）
         room.setReady(0);
         return username;

@@ -31,6 +31,7 @@ public class RoomService {
     public void removePlayer(Room room,UserVO userVO){
         synchronized (room){
             room.getPlayers().remove(userVO);
+            room.setDuel(null);
         }
     }
 
