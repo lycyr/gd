@@ -223,32 +223,37 @@ public class PVPService {
         Room room = Hall.getRooms().get(roomindex);
         int []point = room.getDuel().getPoint();
         if (point[0]<point[1]){
-            //room.getDuel().getScore()[0] -= 1;
             return room.getPlayers().get(1).getUsername();
         }
         else if (point[0]>point[1]){
-            //room.getDuel().getScore()[1] -= 1;
             return room.getPlayers().get(0).getUsername();
         }
         else{
-            //room.getDuel().getScore()[0] -= 1;
-            //room.getDuel().getScore()[1] -= 1;
             return "none";
         }
     }
 
-    //用于判断对局结束时，最终的胜利者是谁
-    public String DuelEnd(int roomindex){
+    //用于判断对局结束时，最终的胜利者是谁，同时进行房间的初始化操作
+    public synchronized String DuelEnd(int roomindex){
         String username;
         Room room = Hall.getRooms().get(roomindex);
+        //进行更新玩家的生命值
+        if (room.getDuel().getPoint()[0]<room.getDuel().getPoint()[1]){
+            room.getDuel().getScore()[0] -= 1;
+        }
+        else if (room.getDuel().getPoint()[0]>room.getDuel().getPoint()[1]){
+            room.getDuel().getScore()[1] -= 1;
+        }
+        room.getDuel().setPoint(new int[]{0,0});
+        //进行查询最终胜者
         if (room.getDuel().getScore()[0] == 0 && room.getDuel().getScore()[1] == 0)
-            username = "null";
+            username = "none";
         else if (room.getDuel().getScore()[0] == 0)
             username = room.getPlayers().get(1).getUsername();
         else if (room.getDuel().getScore()[1] == 0)
             username = room.getPlayers().get(0).getUsername();
         else
-            username = "null";
+            username = "none";
         //整个对局结束时，将对战场置为空
         room.setDuel(null);
         //对局结束时，将房间准备数置为0（便于此两人进行下一次对局）
@@ -257,8 +262,15 @@ public class PVPService {
     }
 
     //初始化玩家数据，用于第二局/第三局对战
-    public Room initRoom(Room room){
+    public synchronized Room initRoom(Room room){
         Duel duel = room.getDuel();
+        //进行更新玩家的生命值
+        if (duel.getPoint()[0]<duel.getPoint()[1]){
+            room.getDuel().getScore()[0] -= 1;
+        }
+        else if (duel.getPoint()[0]>duel.getPoint()[1]){
+            room.getDuel().getScore()[1] -= 1;
+        }
         //设置初始点数
         duel.setPoint(new int[]{0,0});
         //初始化远程单位与近战单位

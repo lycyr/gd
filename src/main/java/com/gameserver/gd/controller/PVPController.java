@@ -62,7 +62,7 @@ public class PVPController {
     public String getWinner(int roomindex){
         if (roomindex<0 || roomindex>35)
             return null;
-        //当前对局结束，进行更新房间数据
+        //当前对局的某一小局结束，进行胜负判定
         return pvpService.WinORFailure(roomindex);
     }
 
@@ -70,7 +70,7 @@ public class PVPController {
     @RequestMapping(value = "/getlastwinner",method = RequestMethod.POST)
     public String getLast(int roomindex){
         if (roomindex<0 || roomindex>35)
-            return null;
+            return "none";
         return pvpService.DuelEnd(roomindex);
     }
 
