@@ -4,6 +4,7 @@ import com.gameserver.gd.entity.Card;
 import com.gameserver.gd.pvp.CardList;
 import com.gameserver.gd.pvp.Hall;
 import com.gameserver.gd.pvp.Room;
+import com.gameserver.gd.pvp.Winner;
 import com.gameserver.gd.service.PVPService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class PVPController {
         if (roomindex<0 || roomindex>35)
             return null;
         //当前对局的某一小局结束，进行胜负判定
-        return pvpService.WinORFailure(roomindex);
+        return Winner.getWinners().get(roomindex);
     }
 
     //获取最终胜者
@@ -78,6 +79,7 @@ public class PVPController {
     public int getScore(String player,int roomindex){
         if (roomindex<0 || roomindex>35)
             return 0;
+        System.out.println(player+"socre:"+pvpService.getScore(player,roomindex));
         return pvpService.getScore(player,roomindex);
     }
 }

@@ -267,9 +267,11 @@ public class PVPService {
         //进行更新玩家的生命值
         if (duel.getPoint()[0]<duel.getPoint()[1]){
             room.getDuel().getScore()[0] -= 1;
+            Winner.getWinners().set(room.getRoomindex(),room.getPlayers().get(1).getUsername());
         }
         else if (duel.getPoint()[0]>duel.getPoint()[1]){
             room.getDuel().getScore()[1] -= 1;
+            Winner.getWinners().set(room.getRoomindex(),room.getPlayers().get(0).getUsername());
         }
         //设置初始点数
         duel.setPoint(new int[]{0,0});
