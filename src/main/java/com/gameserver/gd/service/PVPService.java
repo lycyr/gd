@@ -44,7 +44,7 @@ public class PVPService {
             duel.getBehindCards()[1].add(0);
         }
         //设置先手玩家0,1
-        duel.setCurPlayer(Math.abs(new Random(47).nextInt(2)));
+        duel.setCurPlayer(Math.abs(new Random().nextInt(2)));
         //读取用户牌组，以list的形式记录下来
         for (int i=0;i<2;i++){
             String username = room.getPlayers().get(i).getUsername();
