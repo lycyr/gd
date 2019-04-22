@@ -239,13 +239,13 @@ public class PVPService {
         String username;
         Room room = Hall.getRooms().get(roomindex);
         //进行更新玩家的生命值
-        if (room.getDuel().getPoint()[0]<room.getDuel().getPoint()[1]){
-            room.getDuel().getScore()[0] -= 1;
-        }
-        else if (room.getDuel().getPoint()[0]>room.getDuel().getPoint()[1]){
-            room.getDuel().getScore()[1] -= 1;
-        }
-        room.getDuel().setPoint(new int[]{0,0});
+//        if (room.getDuel().getPoint()[0]<room.getDuel().getPoint()[1]){
+//            room.getDuel().getScore()[0] -= 1;
+//        }
+//        else if (room.getDuel().getPoint()[0]>room.getDuel().getPoint()[1]){
+//            room.getDuel().getScore()[1] -= 1;
+//        }
+//        room.getDuel().setPoint(new int[]{0,0});
         //进行查询最终胜者
         if (room.getDuel().getScore()[0] == 0)
             username = room.getPlayers().get(1).getUsername();
@@ -282,7 +282,7 @@ public class PVPService {
             duel.getBehindCards()[1].set(i,0);
         }
         //设置先手玩家0,1
-        duel.setCurPlayer(Math.abs(new Random(47).nextInt(2)));
+        duel.setCurPlayer(Math.abs(new Random().nextInt(2)));
         return room;
     }
 
