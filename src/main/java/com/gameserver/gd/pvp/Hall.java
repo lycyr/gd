@@ -15,10 +15,6 @@ public class Hall {
             Hall.rooms.add(room);
         }
     }
-//    public static void CreateRoom(){
-//        Room room = new Room();
-//        Hall.rooms.add(room);
-//    }
 
     public static List<Room> getRooms() {
         return rooms;

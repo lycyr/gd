@@ -9,14 +9,6 @@ import java.util.List;
 
 public class CardList{
     private static volatile List<Card> cards;
-//    private CardService cardService;
-//    @Autowired
-//    public CardList(CardService cardService){
-//        this.cardService = cardService;
-//    }
-//    static {
-//        cards = CardService.
-//    }
 
     public static void setCards(List<Card> cards) {
         CardList.cards = cards;
