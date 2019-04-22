@@ -31,6 +31,7 @@ public class RoomService {
     public void removePlayer(Room room,UserVO userVO){
         synchronized (room){
             room.getPlayers().remove(userVO);
+            //进行对战场景重置，对局结束没有进行duel的重置，在此处进行补偿重置操作
             room.setDuel(null);
         }
     }

@@ -5,7 +5,6 @@ import com.gameserver.gd.Utils.Msg;
 import com.gameserver.gd.service.PVPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -74,8 +73,6 @@ public class WebSocketService {
                 else if (!pvpService.addCardAnother(msg.getSender(),msg.getRoomindex(),msg.getOperation().getId(),msg.getOperation().getType(),msg.getOperation().getPosition()))
                     throw new IllegalArgumentException("数据存储出错");
             }
-//            Session sender = sessionMap.get(msg.getSender());
-//            sender.getAsyncRemote().sendText(message);
         }catch (Exception e){
             e.printStackTrace();
             throw new IllegalArgumentException("数据解析/转发出错");

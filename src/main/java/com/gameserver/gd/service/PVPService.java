@@ -63,7 +63,8 @@ public class PVPService {
             }
             else {
                 for (int m=0;m<8;m++){
-                    duel.getHandCards()[i].add(arrayList.remove(Math.abs(new Random(47).nextInt(arrayList.size()))));
+                    //修改伪随机方法
+                    duel.getHandCards()[i].add(arrayList.remove(Math.abs(new Random().nextInt(arrayList.size()))));
                 }
                 duel.getDecks()[i] = arrayList;
             }
@@ -246,9 +247,7 @@ public class PVPService {
         }
         room.getDuel().setPoint(new int[]{0,0});
         //进行查询最终胜者
-        if (room.getDuel().getScore()[0] == 0 && room.getDuel().getScore()[1] == 0)
-            username = "none";
-        else if (room.getDuel().getScore()[0] == 0)
+        if (room.getDuel().getScore()[0] == 0)
             username = room.getPlayers().get(1).getUsername();
         else if (room.getDuel().getScore()[1] == 0)
             username = room.getPlayers().get(0).getUsername();
