@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -57,6 +58,8 @@ public class PVPService {
             }
             //初始化用户的牌组（修正，先抽出手牌，再记录卡组）
             //duel.getDecks()[i] = arrayList;
+            //进行随机化牌组
+            Collections.shuffle(arrayList,new Random());
             //进行随机初始化手牌
             if(arrayList.size()<=8) {
                 duel.getHandCards()[i] = arrayList;
@@ -239,13 +242,6 @@ public class PVPService {
         String username;
         Room room = Hall.getRooms().get(roomindex);
         //进行更新玩家的生命值
-//        if (room.getDuel().getPoint()[0]<room.getDuel().getPoint()[1]){
-//            room.getDuel().getScore()[0] -= 1;
-//        }
-//        else if (room.getDuel().getPoint()[0]>room.getDuel().getPoint()[1]){
-//            room.getDuel().getScore()[1] -= 1;
-//        }
-//        room.getDuel().setPoint(new int[]{0,0});
         //进行查询最终胜者
         if (room.getDuel().getScore()[0] == 0)
             username = room.getPlayers().get(1).getUsername();
