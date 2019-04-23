@@ -122,7 +122,7 @@ public class PVPService {
     }
 
     //id 卡牌编号，type 卡牌类型，position 卡牌放置位置。出牌操作，将卡牌加入到场景中去。
-    public boolean addCardAnother(String player,int roomindex,int id,int type,int position){
+    public synchronized boolean addCardAnother(String player,int roomindex,int id,int type,int position){
         Room room = Hall.getRooms().get(roomindex);
         //获取玩家的相对位置
         int playerPosition = 0;
