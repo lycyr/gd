@@ -352,7 +352,24 @@ public class PVPService {
 
     //特殊效果牌13添加:敌人抽一张牌，自己抽两张牌
     private boolean card13(int playerPosition,Room room){
-        return false;
+        try{
+            List<Integer> card = room.getDuel().getHandCards()[playerPosition];
+            List<Integer> deck = room.getDuel().getDecks()[playerPosition];
+            //自己抽牌
+            for (int i=0;i<2;i++){
+                if (deck.size()>0 && card.size()<8)
+                    card.add(deck.remove(0));
+            }
+            //对手抽牌
+            List<Integer> cardAnother = room.getDuel().getHandCards()[1-playerPosition];
+            if (cardAnother.size()<8)
+                cardAnother.add(room.getDuel().getDecks()[1-playerPosition].remove(0));
+            return true;
+        }
+        catch (Exception e){
+            throw new IllegalArgumentException("卡牌13出牌操作失败");
+        }
+
     }
 
     //特殊效果牌14添加:丢弃所有手牌，然后抽取相同数量的牌
