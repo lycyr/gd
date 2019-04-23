@@ -40,6 +40,7 @@ public class RoomService {
     public boolean ready(Room room){
         room.readyCount();
         if (room.getPlayers().size()==2){
+            System.out.println("有房间内两名玩家均已就绪，即将开始对战");
             pvpService.initScene(room);
             return true;
         }

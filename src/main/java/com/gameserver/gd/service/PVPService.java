@@ -188,6 +188,12 @@ public class PVPService {
             switch (id){
                 case 11:
                     return card11(playerPosition,room);
+                case 12:
+                    return card12(playerPosition,room);
+                case 13:
+                    return card13(playerPosition,room);
+                case 14:
+                    return card14(playerPosition,room);
                 default:
                         return false;
             }
@@ -318,14 +324,14 @@ public class PVPService {
         return score;
     }
 
-    //特殊效果牌11添加成功
-    private boolean card11(int playerposition,Room room){
-        List<Integer> card = room.getDuel().getHandCards()[playerposition];
+    //特殊效果牌11添加成功:丢弃一张牌，随机抽0-3张牌（如果玩家没牌，则不丢弃；如果超过8张，多余的将不会抽取）
+    private boolean card11(int playerPosition,Room room){
+        List<Integer> card = room.getDuel().getHandCards()[playerPosition];
         if (card.size()>0)
             card.remove(new Random().nextInt(card.size()));
         int num = new Random().nextInt(4);
         System.out.println("该用户抽了"+num+"张新的手牌");
-        List<Integer> deck = room.getDuel().getDecks()[playerposition];
+        List<Integer> deck = room.getDuel().getDecks()[playerPosition];
         for (int i = 0;i < num; i++){
             if (card.size()<8){
                 if (deck.size()>=1)
@@ -335,7 +341,36 @@ public class PVPService {
         return true;
     }
 
-    private boolean Card12(){
+    //特殊效果牌12添加:抽1张牌
+    private boolean card12(int playerPosition,Room room){
+        List<Integer> card = room.getDuel().getHandCards()[playerPosition];
+        List<Integer> deck = room.getDuel().getDecks()[playerPosition];
+        if (deck.size()>0)
+            card.add(deck.remove(0));
+        return true;
+    }
+
+    //特殊效果牌13添加:敌人抽一张牌，自己抽两张牌
+    private boolean card13(int playerPosition,Room room){
         return false;
+    }
+
+    //特殊效果牌14添加:丢弃所有手牌，然后抽取相同数量的牌
+    private boolean card14(int playerPosition,Room room){
+        List<Integer> card = room.getDuel().getHandCards()[playerPosition];
+        int num = card.size();
+        List<Integer> deck = room.getDuel().getDecks()[playerPosition];
+        //获取卡组剩余的卡牌数
+        int delay = deck.size();
+        if (num >= delay){
+            card = deck;
+            deck = new ArrayList<Integer>();
+        }
+        else{
+            for (int i=0;i<num;i++){
+                card.set(i,deck.remove(0));
+            }
+        }
+        return true;
     }
 }
