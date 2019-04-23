@@ -5,8 +5,6 @@ public class ChatMessage {
     private String sender;
     //接收者
     private String receiver;
-//    //房间索引
-//    private int roomindex;
     //发送的消息
     private String message;
 
@@ -25,14 +23,6 @@ public class ChatMessage {
     public String getReceiver() {
         return receiver;
     }
-
-//    public void setRoomindex(int roomindex) {
-//        this.roomindex = roomindex;
-//    }
-//
-//    public int getRoomindex() {
-//        return roomindex;
-//    }
 
     public void setMessage(String message) {
         this.message = message;

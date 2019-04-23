@@ -8,6 +8,7 @@ import com.gameserver.gd.pvp.UserVO;
 import com.gameserver.gd.service.CardService;
 import com.gameserver.gd.service.HallService;
 import com.gameserver.gd.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -33,6 +33,8 @@ public class PVPService {
         duel.setFrontCards(new List[]{new ArrayList<Integer>(),new ArrayList<Integer>()});
         //设置场地远程单位
         duel.setBehindCards(new List[]{new ArrayList<Integer>(),new ArrayList<Integer>()});
+        //设置功能卡单位
+        duel.setFunctionCards(new int[]{0,0});
         //设置玩家的手牌
         duel.setHandCards(new List[]{new ArrayList<Integer>(),new ArrayList<Integer>()});
         //设置玩家的卡组
@@ -150,7 +152,7 @@ public class PVPService {
             }
             return false;
         }
-        else if(type == 1){
+        else if (type == 1){
             if (room.getDuel().getHandCards()[playerPosition].size()>0){
                 List<Integer> arrayList = room.getDuel().getHandCards()[playerPosition];
                 for(Integer i : arrayList){
@@ -168,6 +170,27 @@ public class PVPService {
                 return true;
             }
             return false;
+        }
+        else if (type == 2){
+            //先从手牌中删除此卡
+            if (room.getDuel().getHandCards()[playerPosition].size()>0){
+                List<Integer> arrayList = room.getDuel().getHandCards()[playerPosition];
+                for(Integer i : arrayList){
+                    if (i == id){
+                        arrayList.remove(i);
+                        break;
+                    }
+                }
+                room.getDuel().getFunctionCards()[playerPosition] = id;
+            }
+            else
+                return false;
+            switch (id){
+                case 11:
+                    return card11(playerPosition,room);
+                default:
+                        return false;
+            }
         }
         else
             return false;
@@ -270,6 +293,8 @@ public class PVPService {
         }
         //设置初始点数
         duel.setPoint(new int[]{0,0});
+        //初始化功能卡
+        duel.setFunctionCards(new int[]{0,0});
         //初始化远程单位与近战单位
         for (int i= 0;i < 5;i++){
             duel.getFrontCards()[0].set(i,0);
@@ -291,5 +316,26 @@ public class PVPService {
             playerPosition = 1;
         int score = room.getDuel().getScore()[playerPosition];
         return score;
+    }
+
+    //特殊效果牌11添加成功
+    private boolean card11(int playerposition,Room room){
+        List<Integer> card = room.getDuel().getHandCards()[playerposition];
+        if (card.size()>0)
+            card.remove(new Random().nextInt(card.size()));
+        int num = new Random().nextInt(4);
+        System.out.println("该用户抽了"+num+"张新的手牌");
+        List<Integer> deck = room.getDuel().getDecks()[playerposition];
+        for (int i = 0;i < num; i++){
+            if (card.size()<8){
+                if (deck.size()>=1)
+                    card.add(deck.remove(0));
+            }
+        }
+        return true;
+    }
+
+    private boolean Card12(){
+        return false;
     }
 }

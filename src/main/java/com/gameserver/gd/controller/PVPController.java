@@ -82,4 +82,14 @@ public class PVPController {
         System.out.println(player+"socre:"+pvpService.getScore(player,roomindex));
         return pvpService.getScore(player,roomindex);
     }
+
+    @RequestMapping(value = "updateHandCard",method = RequestMethod.POST)
+    public List<Integer> UpdateHandCard(String player, int roomindex){
+        Room room = Hall.getRooms().get(roomindex);
+        //获取玩家的相对位置
+        int playerPosition = 0;
+        if (room.getPlayers().get(1).getUsername().equals(player))
+            playerPosition = 1;
+        return room.getDuel().getHandCards()[playerPosition];
+    }
 }
