@@ -194,6 +194,8 @@ public class PVPService {
                     return card13(playerPosition,room);
                 case 14:
                     return card14(playerPosition,room);
+                case 15:
+                    return card15(room);
                 default:
                         return false;
             }
@@ -216,7 +218,7 @@ public class PVPService {
     }
 
     //计算某个玩家的分数
-    public int calScore(String player,int roomindex){
+    public void calScore(String player,int roomindex){
         Room room = Hall.getRooms().get(roomindex);
         //获取玩家的相对位置
         int playerPosition = 0;
@@ -224,14 +226,14 @@ public class PVPService {
             playerPosition = 1;
         List<Integer> close = room.getDuel().getFrontCards()[playerPosition];
         List<Integer> far = room.getDuel().getBehindCards()[playerPosition];
-        int score = 0;
+        int point = 0;
         List<Card> cardList = CardList.getCards();
         //如果当前位置为0，说明此处没有卡牌，跳过对此卡的处理
         for (Integer i :close){
             if (i!=0){
                 for (Card c : cardList){
                     if (c.getIdcards() == i){
-                        score += c.getCardpoint();
+                        point += c.getCardpoint();
                         break;
                     }
                 }
@@ -241,14 +243,13 @@ public class PVPService {
             if (i!=0){
                 for (Card c : cardList){
                     if (c.getIdcards() == i){
-                        score += c.getCardpoint();
+                        point += c.getCardpoint();
                         break;
                     }
                 }
             }
         }
-        room.getDuel().getPoint()[playerPosition] = score;
-        return score;
+        room.getDuel().getPoint()[playerPosition] = point;
     }
 
     //用于判定当前回合哪个玩家胜出,返回玩家的用户名
@@ -389,5 +390,23 @@ public class PVPService {
             }
         }
         return true;
+    }
+
+    //特殊效果牌15添加:Stella！！！（清空场上所有的近战单位）
+    private boolean card15(Room room){
+        try {
+            //进行重置玩家的近战单位
+            List<Integer> close0 = room.getDuel().getFrontCards()[0];
+            List<Integer> close1 = room.getDuel().getFrontCards()[1];
+            for (int i= 0;i < 5;i++){
+                close0.set(i,0);
+                close1.set(i,0);
+            }
+            calScore(room.getPlayers().get(0).getUsername(),room.getRoomindex());
+            calScore(room.getPlayers().get(1).getUsername(),room.getRoomindex());
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

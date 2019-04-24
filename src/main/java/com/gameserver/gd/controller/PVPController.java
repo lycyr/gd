@@ -83,7 +83,7 @@ public class PVPController {
         return pvpService.getScore(player,roomindex);
     }
 
-    @RequestMapping(value = "updateHandCard",method = RequestMethod.POST)
+    @RequestMapping(value = "/updateHandCard",method = RequestMethod.POST)
     public List<Integer> UpdateHandCard(String player, int roomindex){
         Room room = Hall.getRooms().get(roomindex);
         //获取玩家的相对位置
