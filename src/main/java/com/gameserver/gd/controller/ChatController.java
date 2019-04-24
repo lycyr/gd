@@ -53,8 +53,8 @@ public class ChatController {
             Session receiver = sessionMap.get(cmsg.getReceiver());
             //System.out.println(receiver.getId()+msg.getReceiver()+" "+sender.getId()+msg.getSender());
             if (receiver != null){
-                receiver.getAsyncRemote().sendText(cmsg.getMessage());
-                sender.getAsyncRemote().sendText(cmsg.getMessage());
+                receiver.getAsyncRemote().sendText(message);
+                sender.getAsyncRemote().sendText(message);
             }
             else
                 sender.getAsyncRemote().sendText("抱歉，"+cmsg.getReceiver()+"已离线，请稍后再发");

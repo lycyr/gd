@@ -30,7 +30,7 @@ public class UserVO {
 
     @Override
     public String toString() {
-        return username+"在第"+roomindex+"个房间里面";
+        return username+"已登录，初始化房间编号数据为"+roomindex;
     }
 
 }
