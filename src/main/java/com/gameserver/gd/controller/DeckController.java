@@ -56,6 +56,7 @@ public class DeckController {
     @RequestMapping(value = "/createdeck",method = RequestMethod.POST)
     public boolean CreateDeck(@RequestBody NewDeck newDeck){
         try{
+            //如果玩家不存在，则返回失败信息
             if (!userService.IsExist(newDeck.getUsername()))
                 return false;
             if (newDeck.getDecks().size()<1)

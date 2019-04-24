@@ -1,10 +1,13 @@
 package com.gameserver.gd.service;
 
+import com.gameserver.gd.entity.Card;
 import com.gameserver.gd.entity.Deck;
 import com.gameserver.gd.entity.DeckExample;
 import com.gameserver.gd.mapper.DeckMapper;
+import com.gameserver.gd.pvp.CardList;
 import com.gameserver.gd.pvp.MyDeck;
 import com.gameserver.gd.pvp.NewDeck;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,20 +52,7 @@ public class DeckService {
 
       //新建一个套牌，用于新的玩家
     @Transactional
-    public boolean SetNewDeck(String username,MyDeck myDeck){
-        int len = myDeck.getCardId().size();
-        Deck deck = new Deck();
-        deck.setUsername(username);
-        for (int i=0; i<len; i++){
-            deck.setIdcards(myDeck.getCardId().get(i));
-            deck.setCount(myDeck.getCount().get(i));
-            deckMapper.insert(deck);
-        }
-        return true;
-    }
-
-    @Transactional
-    public boolean SetNewDeck(NewDeck newDeck){
+    public boolean SetNewDeck1(NewDeck newDeck){
         int len = newDeck.getDecks().size();
         Map<Integer,Integer> decks = new HashMap<>();
         for (int i=0;i<len;i++){
@@ -83,14 +73,72 @@ public class DeckService {
         return true;
     }
 
+    @Transactional
+    public boolean SetNewDeck(NewDeck newDeck){
+        int len = newDeck.getDecks().size();
+        if (len != 20){
+            System.out.println("卡组数目不足，请重新创建套牌");
+            return false;
+        }
+        Map<Integer,Integer> decks = new HashMap<>();
+        for (int i=0;i<len;i++){
+            decks.put(newDeck.getDecks().get(i),decks.getOrDefault(newDeck.getDecks().get(i),0)+1);
+        }
+        List<Card> cardList = CardList.getCards();
+        int functionCards = 0;
+        //此方法需要循环卡牌数量次循环比较费时，故替换为另一种方案
+//        for (Card c : cardList){
+//            if (Integer.valueOf(c.getCardtype())!=2 && decks.get(c.getIdcards())<=3)
+//                continue;
+//            else if (Integer.valueOf(c.getCardtype())==2 && decks.get(c.getIdcards())<=1){
+//                functionCards += 1;
+//            }
+//            else
+//                return false;
+//        }
+        //判断用户的卡组是否符合组卡规则
+        int num=0;
+        for (Integer i : decks.keySet()){
+            //获取卡牌编号为i的卡的数量
+            num = decks.get(i);
+            //判断是否符合卡组规则
+            if (Integer.valueOf(cardList.get(i-1).getCardtype())!=2 && num <= 3)
+                functionCards += 0;
+            else if (Integer.valueOf(cardList.get(i-1).getCardtype())==2 && num<=1)
+                functionCards += 1;
+            else
+                return false;
+        }
+        if (functionCards > 4){
+            System.out.println("功能牌数目不符合标准，请重新创建套牌");
+            return false;
+        }
+        try{
+            Deck deck = new Deck();
+            deck.setUsername(newDeck.getUsername());
+            for(Map.Entry<Integer,Integer> entry : decks.entrySet()){
+                deck.setIdcards(entry.getKey());
+                deck.setCount(entry.getValue());
+                if (deckMapper.insert(deck)<=0)
+                    return false;
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
     //进行更新用户的卡组，先删除，后新建的方法
     @Transactional
     public boolean UpdateDeck(NewDeck newDeck){
-        if (DeleteDeck(newDeck.getUsername())){
-            return SetNewDeck(newDeck);
+        if (CheckNewDeck(newDeck)) {
+            if (DeleteDeck(newDeck.getUsername())) {
+                return SetNewDeck1(newDeck);
+            }
+            return false;
         }
-        return false;
-
+        else
+            return false;
     }
 
     public boolean DeleteDeck(String username){
@@ -99,5 +147,40 @@ public class DeckService {
         if (deckMapper.selectByExample(deckExample).size()==0)
             return true;
         return deckMapper.deleteByExample(deckExample)>0;
+    }
+
+    //检测新卡组是否符合组卡规则
+    public boolean CheckNewDeck(NewDeck newDeck){
+        int len = newDeck.getDecks().size();
+        if (len != 20){
+            System.out.println("卡组数目不足，请重新创建套牌");
+            return false;
+        }
+        Map<Integer,Integer> decks = new HashMap<>();
+        for (int i=0;i<len;i++){
+            decks.put(newDeck.getDecks().get(i),decks.getOrDefault(newDeck.getDecks().get(i),0)+1);
+        }
+        List<Card> cardList = CardList.getCards();
+        int functionCards = 0;
+        //判断用户的卡组是否符合组卡规则
+        int num=0;
+        for (Integer i : decks.keySet()){
+            //获取卡牌编号为i的卡的数量
+            num = decks.get(i);
+            //判断是否符合卡组规则
+            if (Integer.valueOf(cardList.get(i-1).getCardtype())!=2 && num <= 3)
+                functionCards += 0;
+            else if (Integer.valueOf(cardList.get(i-1).getCardtype())==2 && num<=1)
+                functionCards += 1;
+            else{
+                System.out.println("有卡不符合卡组套牌上限");
+                return false;
+            }
+        }
+        if (functionCards > 4){
+            System.out.println("功能牌数目不符合标准，请重新创建套牌");
+            return false;
+        }
+        return true;
     }
 }
