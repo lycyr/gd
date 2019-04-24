@@ -324,7 +324,7 @@ public class PVPService {
         return score;
     }
 
-    //特殊效果牌11添加成功:丢弃一张牌，随机抽0-3张牌（如果玩家没牌，则不丢弃；如果超过8张，多余的将不会抽取）
+    //特殊效果牌11添加成功:丢弃一张牌，随机抽0-3张牌（如果玩家没牌，则不丢弃；如果抽牌总数会超过8张，则多的将不会抽取）
     private boolean card11(int playerPosition,Room room){
         List<Integer> card = room.getDuel().getHandCards()[playerPosition];
         if (card.size()>0)
@@ -350,7 +350,7 @@ public class PVPService {
         return true;
     }
 
-    //特殊效果牌13添加:敌人抽一张牌，自己抽两张牌
+    //特殊效果牌13添加:敌人抽一张牌，自己抽两张牌（尚不确认是让对手爆牌还是不做处理）
     private boolean card13(int playerPosition,Room room){
         try{
             List<Integer> card = room.getDuel().getHandCards()[playerPosition];
@@ -372,7 +372,7 @@ public class PVPService {
 
     }
 
-    //特殊效果牌14添加:丢弃所有手牌，然后抽取相同数量的牌
+    //特殊效果牌14添加:丢弃所有手牌，然后抽取相同数量的牌，如果数量不足将抽光牌组。
     private boolean card14(int playerPosition,Room room){
         List<Integer> card = room.getDuel().getHandCards()[playerPosition];
         int num = card.size();
