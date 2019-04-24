@@ -92,4 +92,15 @@ public class PVPController {
             playerPosition = 1;
         return room.getDuel().getHandCards()[playerPosition];
     }
+
+    //获取某个玩家的近战单位区域数据
+    @RequestMapping(value = "/getFrontCards",method = RequestMethod.POST)
+    public List<Integer> GetFrontCards(String player,int roomindex){
+        Room room = Hall.getRooms().get(roomindex);
+        //获取玩家的相对位置
+        int playerPosition = 0;
+        if (room.getPlayers().get(1).getUsername().equals(player))
+            playerPosition = 1;
+        return room.getDuel().getFrontCards()[playerPosition];
+    }
 }

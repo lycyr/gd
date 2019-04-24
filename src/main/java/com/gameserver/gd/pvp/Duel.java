@@ -15,9 +15,9 @@ public class Duel {
     //游戏场地近战单位区域
     private List<Integer>[] frontCards;
     //游戏场地远程单位区域
-    private List<Integer>[] BehindCards;
+    private List<Integer>[] behindCards;
     //游戏场地功能牌区域
-    private int[] FunctionCards;
+    private int[] functionCards;
     //玩家的主卡组
     private List<Integer>[] decks;
     //当前玩家判定
@@ -64,19 +64,19 @@ public class Duel {
     }
 
     public List<Integer>[] getBehindCards() {
-        return BehindCards;
+        return behindCards;
     }
 
     public void setBehindCards(List<Integer>[] behindCards) {
-        BehindCards = behindCards;
+        this.behindCards = behindCards;
     }
 
     public int[] getFunctionCards() {
-        return FunctionCards;
+        return functionCards;
     }
 
     public void setFunctionCards(int[] functionCards) {
-        FunctionCards = functionCards;
+        this.functionCards = functionCards;
     }
 
     public void setDecks(List<Integer>[] decks) {
