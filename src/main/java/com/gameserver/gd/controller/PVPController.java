@@ -6,7 +6,10 @@ import com.gameserver.gd.pvp.Hall;
 import com.gameserver.gd.pvp.Room;
 import com.gameserver.gd.pvp.Winner;
 import com.gameserver.gd.service.PVPService;
+import com.gameserver.gd.service.UserService;
 import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +23,8 @@ import java.util.List;
 public class PVPController {
 
     private PVPService pvpService;
+
+    private final Logger logger = LoggerFactory.getLogger(PVPService.class);
 
     @Autowired
     public PVPController(PVPService pvpService){
@@ -102,5 +107,20 @@ public class PVPController {
         if (room.getPlayers().get(1).getUsername().equals(player))
             playerPosition = 1;
         return room.getDuel().getFrontCards()[playerPosition];
+    }
+
+    //获取某位玩家的手牌数量
+    @RequestMapping(value = "/getCardCount",method = RequestMethod.POST)
+    public int getCardCount(String player,int roomindex){
+        try{
+        if (player.isEmpty())
+            throw new IllegalArgumentException("这不是一个有效的玩家");
+        if (roomindex <0 || roomindex>35)
+            throw new IllegalArgumentException("这不是一个有效的房间信息");
+        return pvpService.getCardCount(player,roomindex);
+        }catch (IllegalArgumentException e){
+            logger.info(e.getMessage());
+            return 0;
+        }
     }
 }

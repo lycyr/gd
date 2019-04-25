@@ -325,6 +325,17 @@ public class PVPService {
         return score;
     }
 
+    //获取玩家的手牌数量
+    public int getCardCount(String player,int roomindex){
+        Room room = Hall.getRooms().get(roomindex);
+        //获取玩家的相对位置
+        int playerPosition = 0;
+        if (room.getPlayers().get(1).getUsername().equals(player))
+            playerPosition = 1;
+        int count = room.getDuel().getHandCards()[playerPosition].size();
+        return count;
+    }
+
     //特殊效果牌11添加成功:丢弃一张牌，随机抽0-3张牌（如果玩家没牌，则不丢弃；如果抽牌总数会超过8张，则多的将不会抽取）
     private boolean card11(int playerPosition,Room room){
         List<Integer> card = room.getDuel().getHandCards()[playerPosition];
