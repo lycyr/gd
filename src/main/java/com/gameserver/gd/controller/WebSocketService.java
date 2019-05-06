@@ -2,6 +2,7 @@ package com.gameserver.gd.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gameserver.gd.Utils.Msg;
+import com.gameserver.gd.pvp.Winner;
 import com.gameserver.gd.service.PVPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -67,8 +68,9 @@ public class WebSocketService {
                 receiver.getAsyncRemote().sendText(message);
                 sender.getAsyncRemote().sendText(message);
                 //如果一方放弃出牌，则不对数据进行处理
-                if (msg.getOperation().getOpera().equals("End"))
+                if (msg.getOperation().getOpera().equals("End")){
                     System.out.println(msg.getSender()+"放弃出牌");
+                }
                 //进行处理出牌操作
                 else if (!pvpService.addCardAnother(msg.getSender(),msg.getRoomindex(),msg.getOperation().getId(),msg.getOperation().getType(),msg.getOperation().getPosition()))
                     throw new IllegalArgumentException("数据存储出错");

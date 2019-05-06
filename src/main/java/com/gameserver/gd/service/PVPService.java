@@ -24,6 +24,8 @@ public class PVPService {
 
     //初始化某个对战房间
     public Room initScene(Room room){
+        //初始化用户房间胜者
+        Winner.getWinners().set(room.getRoomindex(),"none");
         Duel duel = new Duel();
         //设置初始分数
         duel.setScore(new int[]{2,2});
@@ -297,6 +299,9 @@ public class PVPService {
         else if (duel.getPoint()[0]>duel.getPoint()[1]){
             room.getDuel().getScore()[1] -= 1;
             Winner.getWinners().set(room.getRoomindex(),room.getPlayers().get(0).getUsername());
+        }
+        else if (duel.getPoint()[0] == duel.getPoint()[1] && duel.getPoint()[0]!=0){
+            Winner.getWinners().set(room.getRoomindex(),"none");
         }
         //设置初始点数
         duel.setPoint(new int[]{0,0});

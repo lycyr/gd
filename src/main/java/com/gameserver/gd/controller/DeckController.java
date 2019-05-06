@@ -28,11 +28,6 @@ public class DeckController {
 
     @RequestMapping(value = "/getdeck",method = {RequestMethod.GET,RequestMethod.POST})
     public Map<Integer,Integer> GetDeckMap(String username){
-//        try{
-//
-//        }catch (Exception e){
-//            throw new IllegalArgumentException("");
-//        }
         if (username == null)
             return null;
         return deckService.GetDeckByUsername(username);
