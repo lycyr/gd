@@ -315,7 +315,7 @@ public class PVPService {
             duel.getBehindCards()[1].set(i,0);
         }
         //设置先手玩家0,1
-        duel.setCurPlayer(Math.abs(new Random().nextInt(2)));
+        duel.setCurPlayer(Math.abs(new Random(47).nextInt(2)));
         return room;
     }
 
