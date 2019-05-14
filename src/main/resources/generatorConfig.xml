@@ -70,5 +70,7 @@
         </table>
         <table tableName="Deck" domainObjectName="Deck">
         </table>
+        <table tableName="log" domainObjectName="Log">
+        </table>
     </context>
 </generatorConfiguration>

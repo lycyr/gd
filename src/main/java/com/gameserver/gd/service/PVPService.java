@@ -16,10 +16,12 @@ import java.util.Random;
 public class PVPService {
 
     private DeckService deckService;
+    private LogService logService;
 
     @Autowired
-    public PVPService(DeckService deckService){
+    public PVPService(DeckService deckService,LogService logService){
         this.deckService = deckService;
+        this.logService = logService;
     }
 
     //初始化某个对战房间
@@ -348,6 +350,7 @@ public class PVPService {
             card.remove(new Random().nextInt(card.size()));
         int num = new Random().nextInt(4);
         System.out.println("该用户抽了"+num+"张新的手牌");
+        logService.addLog(playerPosition+"该用户抽了"+num+"张新的手牌");
         List<Integer> deck = room.getDuel().getDecks()[playerPosition];
         for (int i = 0;i < num; i++){
             if (card.size()<8){
@@ -364,12 +367,14 @@ public class PVPService {
         List<Integer> deck = room.getDuel().getDecks()[playerPosition];
         if (deck.size()>0)
             card.add(deck.remove(0));
+        logService.addLog(playerPosition+"插入了一张新的卡牌");
         return true;
     }
 
     //特殊效果牌13添加:敌人抽一张牌，自己抽两张牌（尚不确认是让对手爆牌还是不做处理）
     private boolean card13(int playerPosition,Room room){
         try{
+           logService.addLog("敌人抽一张牌，自己抽两张牌");
             List<Integer> card = room.getDuel().getHandCards()[playerPosition];
             List<Integer> deck = room.getDuel().getDecks()[playerPosition];
             //自己抽牌
