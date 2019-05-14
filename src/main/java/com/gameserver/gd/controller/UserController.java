@@ -45,7 +45,6 @@ public class UserController {
                 return false;
             return userService.NewUserReg(username,password,email);
         }catch (Exception e){
-
             throw new IllegalArgumentException("用户注册时出现问题");
         }
     }
